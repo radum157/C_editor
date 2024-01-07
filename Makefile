@@ -3,18 +3,14 @@ HEADERS=image.h utils.h
 OBJECTS=image_editor.o image.o
 EXE=image_editor
 
+# C flags
 CC=gcc
-CFLAGS=-std=c99 -g -c -Wall -Wextra -o
+CFLAGS=-std=c99 -o
 LDLIBS=-lm
 
-# Clear to disable valgrind
-RUNCC=valgrind
-VALGOPT=--leak-check=full --show-leak-kinds=all --track-origins=yes -s
-DEBUGCC=gdb
+ZIPNAME=C_image_editor.zip
 
-ZIPNAME=323CA_MarinRadu_Tema3.zip
-
-.PHONY: build clean pack run all debug
+.PHONY: build clean pack
 
 build: image_editor
 
@@ -25,16 +21,6 @@ image_editor.o: image_editor.c
 
 image.o: image.c
 	$(CC) $(CFLAGS) $@ $<
-
-run:
-	$(RUNCC) $(VALGOPT) ./$(EXE)
-
-debug: clean build
-	$(DEBUGCC) $(EXE)
-
-all: clean build
-	make run
-	make clean
 
 clean:
 	rm -f $(OBJECTS)
